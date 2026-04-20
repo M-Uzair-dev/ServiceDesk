@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python \"C:/Users/Noman/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"field service management admin dashboard technician client jobs professional\" --design-system -p \"ServicePro\" -f markdown)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3001 -o /dev/null -w \"%{http_code}\")",
+      "Bash(taskkill /F /IM node.exe)"
+    ]
+  }
+}
