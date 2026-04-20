@@ -32,8 +32,22 @@ ServiceDesk/
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL database
-- Redis instance
+- Docker (for PostgreSQL and Redis)
+
+### Start Dependencies
+
+Spin up PostgreSQL and Redis with Docker:
+
+```bash
+docker run -d --name pg \
+  -e POSTGRES_USER=user \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=assessment_db \
+  -p 5432:5432 \
+  postgres:16
+
+docker run -d --name redis -p 6379:6379 redis:7
+```
 
 ### Backend
 
@@ -72,14 +86,21 @@ npm run dev
 ### Backend `.env`
 
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/servicedesk
-REDIS_URL=redis://localhost:6379
-ACCESS_TOKEN_SECRET=your_access_secret
-REFRESH_TOKEN_SECRET=your_refresh_secret
-SMTP_HOST=smtp.example.com
+DATABASE_URL=postgresql://user:password@localhost:5432/assessment_db
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=your@email.com
-SMTP_PASS=your_password
+SMTP_USER=your@gmail.com
+SMTP_PASS=your_app_password
+EMAIL_FROM=ServiceDesk <your@gmail.com>
+PORT=3000
+NODE_ENV=development
 ```
 
 ### Frontend `.env.local`
