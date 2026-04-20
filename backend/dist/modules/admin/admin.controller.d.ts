@@ -1,0 +1,20 @@
+import { Response, NextFunction } from "express";
+import { AuthRequest } from "../../types";
+export declare function getDashboard(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function listTechnicians(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function getTechnician(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function createTechnician(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function updateTechnician(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function deleteTechnician(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function listClients(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function getClient(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function createClient(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function updateClient(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function deleteClient(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function listJobs(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function getJob(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function scheduleJob(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function cancelJob(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function deleteJob(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+export declare function addNote(req: AuthRequest, res: Response, next: NextFunction): Promise<void>;
+//# sourceMappingURL=admin.controller.d.ts.map

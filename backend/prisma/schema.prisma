@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+enum ContactMethod {
+  CALL
+  EMAIL
+  SMS
+}
+
+enum TechnicianStatus {
+  ACTIVE
+  OFFLINE
+  SUSPENDED
+}
+
+enum JobStatus {
+  REQUESTED
+  SCHEDULED
+  ENROUTE
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Admin {
+  id                     String        @id @default(cuid())
+  name                   String
+  email                  String        @unique
+  password               String
+  phoneNumber            String?
+  address                String?
+  preferredContactMethod ContactMethod @default(EMAIL)
+  totalBookings          Int           @default(0)
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  jobs                   Job[]
+
+  @@index([email])
+}
+
+model Client {
+  id                   String    @id @default(cuid())
+  name                 String
+  email                String    @unique
+  password             String
+  phoneNumber          String?
+  address              String?
+  notificationsEnabled Boolean   @default(true)
+  lastLoginAt          DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  jobs                 Job[]
+  reviews              Review[]
+
+  @@index([email])
+}
+
+model Technician {
+  id              String           @id @default(cuid())
+  name            String
+  email           String           @unique
+  password        String
+  phoneNumber     String?
+  skills          String[]
+  experienceYears Int              @default(0)
+  status          TechnicianStatus @default(ACTIVE)
+  verified        Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  jobs            Job[]
+  reviews         Review[]
+
+  @@index([email])
+  @@index([status])
+}
+
+model Job {
+  id           String     @id @default(cuid())
+  title        String
+  description  String
+  status       JobStatus  @default(REQUESTED)
+  scheduledAt  DateTime?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  cost         Float?
+  adminId      String?
+  technicianId String?
+  clientId     String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  admin      Admin?      @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  technician Technician? @relation(fields: [technicianId], references: [id])
+  client     Client      @relation(fields: [clientId], references: [id])
+  notes      Note[]
+  review     Review?
+
+  @@index([status])
+  @@index([clientId])
+  @@index([technicianId])
+  @@index([adminId])
+}
+
+model Note {
+  id         String   @id @default(cuid())
+  note       String
+  jobId      String
+  authorId   String
+  authorRole String
+  createdAt  DateTime @default(now())
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@index([jobId])
+}
+
+model Review {
+  id           String     @id @default(cuid())
+  stars        Int
+  feedback     String
+  jobId        String     @unique
+  clientId     String
+  technicianId String
+  createdAt    DateTime   @default(now())
+
+  job        Job        @relation(fields: [jobId], references: [id])
+  client     Client     @relation(fields: [clientId], references: [id])
+  technician Technician @relation(fields: [technicianId], references: [id])
+
+  @@index([technicianId])
+}
